@@ -8,7 +8,7 @@ bname = 'freshnewbucky'
 # Bucket is the method to name your bucket, other one is to bypass error 
 s3.create_bucket(Bucket=bname, CreateBucketConfiguration={'LocationConstraint':'eu-west-2'})
 
-# lsit buckets (so far it lsits all details on the ones available)
+# list buckets (so far it lsits all details on the ones available)
 print (s3.list_buckets())
 
 # syntac for uploading files [from which file] [which bucket] [to file]

@@ -14,19 +14,6 @@ ec2.create_instances(ImageId='ami-00a1270ce1e007c27', InstanceType= 't2.micro', 
 #print (type(wait))
 
 
-# here I describe isntances, fetching all info on all instances
-# then filter through the Dictionary till i get to the instances
-# then fetch the InstanceId and Print
-response = ec2cli.describe_instances()
-for reservation in response['Reservations']:
-    for instance in reservation['Instances']:
-        data = ec2.Instance(instance['InstanceId'])
-        
-        status = ec2cli.describe_instance_status()
-        print (type(data))
-        print (data)
-        #print (status)
-
 # 'slighty' more concise alternative to the above ...
 for instance in ec2.instances.all():
     print (instance.id, instance.state['Name'])
