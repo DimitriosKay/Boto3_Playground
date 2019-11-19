@@ -26,14 +26,61 @@ class VPC:
             }]
         )
 
+    def create_internet_gateway(self):
+        print ('Creating Internet Gateway...')
+        return self._client.create_internet_gateway()
+
+    def attach_internet_gateway(self, vpc_id, igw_id):
+        print ('Attaching Internet Gateway...')
+        return self._client.attach_internet_gateway(
+            InternetGatewayId=igw_id,
+            VpcId=vpc_id
+        )
+    
+    def create_subnet(self, vpc_id, cidr_block ):
+        print ('Creating Subnet...')
+        return self._client.create_subnet(
+            VpcId=vpc_id,
+            CidrBlock=cidr_block
+        )
+
+    def create_public_route_table(self, vpc_id):
+        print ('Creating Route Table...')
+        return self._client.create_route_table(
+            VpcId=vpc_id
+        )
+
+    def create_igw_public_route(self, route_table_id, destination_cidr_block, igw_id):
+        print ("Creating Internet Gateway Public route...")
+        return self._client.create_route(
+            RouteTableId=route_table_id,
+            DestinationCidrBlock=destination_cidr_block,
+            GatewayId=igw_id
+        )
+
+    def associate_subnet_with_route_table(self, public_subnet_id, route_table_id):
+        print ("Associating Route Table with Subnet...")
+        return self._client.associate_route_table(
+            SubnetId=public_subnet_id,
+            RouteTableId=route_table_id
+        )
+
+    def auto_assign_subnet_ip(self, public_subnet_id):
+        print ("Activate auto-assigning of public IP's...")
+        return self._client.modify_subnet_attribute(
+            SubnetId=public_subnet_id,
+            MapPublicIpOnLaunch={'Value': True}
+        )
+
+
 class VPC_Destroy:
     def __init__(self, client):
         self._client = client
 
     # VPC delete
-    def destroy_vpc(self, vpc_id):
+    def destroy_vpc(self, vpc_pick):
         print ('Destroying...')
         # keep the delete statement here
         return self._client.delete_vpc(
-            VpcId=vpc_id        
+            VpcId=vpc_pick        
         )
