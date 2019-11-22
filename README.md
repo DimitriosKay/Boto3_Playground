@@ -18,5 +18,7 @@
 
 
 [] Was (*sort of still am*) trying to make sense of when to use client or resource in the __boto3.*client/resource*__ calls
+
 [] Would be great to set up a infrastructure tare-down script (like teraform destroy) for the whole VPC network
+
 [] Could also 'modularize' it a bit more
