@@ -72,15 +72,3 @@ class VPC:
             MapPublicIpOnLaunch={'Value': True}
         )
 
-
-class VPC_Destroy:
-    def __init__(self, client):
-        self._client = client
-
-    # VPC delete
-    def destroy_vpc(self, vpc_pick):
-        print ('Destroying...')
-        # keep the delete statement here
-        return self._client.delete_vpc(
-            VpcId=vpc_pick        
-        )
