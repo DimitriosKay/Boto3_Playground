@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#python3 --version check
+echo 'Python3 Check ...'
+
+PYTHON="$(python3 --version)"
+
+if [ "$PYTHON" = "" ]; then
+  echo Installing Python3 ...
+  sudo apt-get install python3
+else
+  echo Python3 is installed !
+fi
+
+
+#pip3 --version check
+echo 'Pip3 Check ...'
+
+PIP=$(pip3 --version)
+
+if [ "$PIP" = "" ]; then
+  echo Installing Pip3 ...
+  sudo apt-get install pip3
+else
+  echo Pip3 is installed !
+fi
+
+#pip3 show boto3 check
+echo 'Boto3 Check ...'
+
+BOTO=$(pip3 show boto3)
+
+if [ "$BOTO" = "" ]; then
+  echo Installing Boto3 ...
+  pip3 install -U boto3 
+else
+  echo Boto3 is installed !
+fi
+
+#aws --version check
+echo 'AWSCli Check ...'
+
+AWS=$(aws --version)
+
+if [ "$AWS" = "" ]; then
+  echo Installing AWSCli ...
+  pip3 install awscli
+else
+  echo AWSCli is installed !
+fi
+
+#aws configure
+echo 'Configure your AWS credentials ...'
+aws configure
