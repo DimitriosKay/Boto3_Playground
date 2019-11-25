@@ -17,6 +17,10 @@
 #                                                   
 #### Developed the boto3_proj while learning from a Udemy AWS course:
 ##### __Here we run *python3 deploy.py* or to run a specific service (eg. *_instance()* classes or the *main()* vpc infrastructure) comment out  statements at the bottom of the file__
+* vpc deployment
+* ec2 deployment
+* s3 deployment - creating bucket, assigning policies, checking properties, handling error (allowing encryption if none is found)
+* service cleanup (except for VPC network)
 #                                                      
 
 
