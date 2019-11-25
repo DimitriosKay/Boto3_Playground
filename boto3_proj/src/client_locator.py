@@ -18,3 +18,6 @@ class EC2Client(ClientLocator):
 
 # if you want to expand to S£ let's say, you would add an S3Client as above
 # with super().__init__('s3')
+class S3Client(ClientLocator):
+    def __init__(self):
+        super().__init__('s3')
