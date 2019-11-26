@@ -1,10 +1,15 @@
 from s3.s3 import S3
+from s3.s3 import S3_Res
 from client_locator import S3Client
+from resource_locator import S3Resource
 from botocore.exceptions import ClientError
+import os.path
 
 s3_client = S3Client().get_client()
+s3_resource = S3Resource().get_resource()
 
 s3 = S3(s3_client)
+s3_res = S3_Res(s3_resource)
 
 # bucket name variable
 bucket_name = 'fresh-bucket-but-boto3-2019'
@@ -50,6 +55,15 @@ def manage_buckets():
     else:
         print (f'Encryption for "{bucket_name}" bucket:\n{encryption_response}')
 
+def upload_small_file():
+    file_path = os.path.dirname(os.path.abspath(__file__)) + '/readme.txt'
+    s3.single_part_file_upload(file_path, bucket_name)
+    print (f'File "readme.txt" from "{file_path}" was uploaded to {bucket_name}')
+
+def upload_big_file():
+    file_path = os.path.dirname(os.path.abspath(__file__)) + '/big_doc.docx'
+    s3_res.multi_part_file_upload(file_path, bucket_name)
+    print (f'File "big_doc.docx" from "{file_path}" was uploaded to {bucket_name}/multipart_files')
 
 # destroy bucket
 def destroy_bucket():
@@ -58,6 +72,8 @@ def destroy_bucket():
     print (f'{bucket_name} was destroyed.')
 
 if __name__ == "__main__":
-    #main()
-    manage_buckets()
+    main()
+    #manage_buckets()
+    upload_small_file()
+    upload_big_file()
     #destroy_bucket()
