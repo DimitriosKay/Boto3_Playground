@@ -27,6 +27,10 @@ def main():
     print (f'Policy for {bucket_name} has been created')
     print (bucket_policy_response)
 
+def update_bucket_policy():
+    policies_response = s3.update_bucket_policy(bucket_name)
+    print (f'Policies for {bucket_name} have been updated')
+
 def manage_buckets():
 
     # list buckets
@@ -61,9 +65,19 @@ def upload_small_file():
     print (f'File "readme.txt" from "{file_path}" was uploaded to {bucket_name}')
 
 def upload_big_file():
-    file_path = os.path.dirname(os.path.abspath(__file__)) + '/big_doc.docx'
-    s3_res.multi_part_file_upload(file_path, bucket_name)
-    print (f'File "big_doc.docx" from "{file_path}" was uploaded to {bucket_name}/multipart_files')
+    file_name = 'automate_the_boring_stuff.pdf'
+    file_path = os.path.dirname(os.path.abspath(__file__)) + '/uploads/automate_the_boring_stuff.pdf'
+    s3_res.multi_part_file_upload(file_path, bucket_name, file_name)
+    print (f'\nFile "{file_name}" from "{file_path}" was uploaded to {bucket_name}/multipart_files')
+   
+def enable_versioning():
+    versioning_response = s3.versioning_enable(bucket_name)
+    print (f'Versioning for {bucket_name} has been enabled')
+
+def enable_lifecycle_policy():
+    lifecycle_response = s3.lifecycle_policy(bucket_name)
+    print (f'Lifecycle policies have been added to {bucket_name}')
+    #print (lifecycle_response)
 
 # destroy bucket
 def destroy_bucket():
@@ -74,6 +88,9 @@ def destroy_bucket():
 if __name__ == "__main__":
     main()
     #manage_buckets()
-    upload_small_file()
-    upload_big_file()
+    #update_bucket_policy()
+    #upload_small_file()
+    #upload_big_file()
+    #enable_versioning()
+    #enable_lifecycle_policy()
     #destroy_bucket()
