@@ -13,7 +13,7 @@ s3_res = S3_Res(s3_resource)
 
 # bucket name variable
 bucket_name = 'fresh-bucket-but-boto3-2019'
-
+web_bucket_name = 'fresh-boto3-webpage'
 
 def main():
 
@@ -25,7 +25,8 @@ def main():
     # bucket policy creation and attachment
     bucket_policy_response = s3.create_bucket_policy(bucket_name)
     print (f'Policy for {bucket_name} has been created')
-    print (bucket_policy_response)
+    #print (bucket_policy_response)
+
 
 def update_bucket_policy():
     policies_response = s3.update_bucket_policy(bucket_name)
@@ -79,18 +80,53 @@ def enable_lifecycle_policy():
     print (f'Lifecycle policies have been added to {bucket_name}')
     #print (lifecycle_response)
 
+
+def empty_bucket():
+    s3_res.delete_files(bucket_name)
+    print (f'Bucket "{bucket_name}" has been emptied')
+
 # destroy bucket
 def destroy_bucket():
-
     s3.destroy_bucket(bucket_name)
     print (f'{bucket_name} was destroyed.')
 
+
+def check_available():
+    return s3_res.check_available(web_bucket_name)
+
+def deploy_webpage():
+    index_file = os.path.dirname(__file__) + 'index.html'
+    error_file = os.path.dirname(__file__) + 'error.html'
+
+    #print (type(check_available))
+    
+    if check_available() is True:
+        print ('Bucket exists, updating contents')
+        s3.host_static_website(index_file, error_file, web_bucket_name) 
+    elif check_available() is False:
+        print ('Creating bucket')
+        s3.create_bucket(web_bucket_name)
+        s3.update_bucket_policy(web_bucket_name)
+        s3.host_static_website(index_file, error_file, web_bucket_name)
+        print (f'Go to "{web_bucket_name}.s3-website.eu-west-2.amazonaws.com" to check out your website')
+
+
 if __name__ == "__main__":
+    # Create S3 infrastructure
+    '''
     main()
-    #manage_buckets()
-    #update_bucket_policy()
-    #upload_small_file()
-    #upload_big_file()
-    #enable_versioning()
-    #enable_lifecycle_policy()
+    manage_buckets()
+    update_bucket_policy()
+    upload_small_file()
+    upload_big_file()
+    enable_versioning()
+    enable_lifecycle_policy()
+    '''
+
+    # Deploy bucket hosted webpage
+    #check_available()
+    deploy_webpage()
+
+    # Destroy S3 infrastructure
+    #empty_bucket()
     #destroy_bucket()

@@ -30,6 +30,20 @@ class S3_Res:
             Callback=UploadProgress(file_path, file_name)
         )
 
+    def delete_files(self, bucket_name):
+        print ('Emptying bucket ...')
+        bucket = self._resource.Bucket(bucket_name)
+        bucket.object_versions.delete()
+        #bucket.objects.all().delete()
+
+    def check_available(self, web_bucket_name):
+        bucket = self._resource.Bucket(web_bucket_name)
+        if bucket in self._resource.buckets.all():
+            available = True
+        else:
+            available = False
+        #print (available)
+        return available
 
 class UploadProgress(object):
     # properties of the object, populated in the init method
@@ -189,3 +203,31 @@ class S3:
         return self._client.delete_bucket(
             Bucket=bucket_name
         )
+
+    def host_static_website(self, index_file, error_file, web_bucket_name):
+        print ('Getting website set up ...')
+
+        website_config = {
+            'ErrorDocument': {'Key': 'error.html'},
+            'IndexDocument': {'Suffix': 'index.html'}
+        }
+
+        put_page = self._client.put_bucket_website(
+            Bucket=web_bucket_name,
+            WebsiteConfiguration=website_config
+        )
+
+        put_index = self._client.put_object(
+            Bucket=web_bucket_name,
+            ACL='public-read',
+            Key='index.html',
+            Body=open(index_file).read(),
+            ContentType='text/html'
+        )
+        put_error = self._client.put_object(
+            Bucket=web_bucket_name,
+            ACL='public-read',
+            Key='error.html',
+            Body=open(error_file).read(),
+            ContentType='text/html'
+        )       
