@@ -19,7 +19,7 @@
 ##### __Here we run *python3 deploy.py* or to run a specific service (eg. *_instance()* classes or the *main()* vpc infrastructure) comment out  statements at the bottom of the file__
 * vpc deployment
 * ec2 deployment
-* s3 deployment - creating bucket, assigning policies, checking properties, handling error (allowing encryption if none is found)
+* s3 deployment - creating bucket, assigning and updating policies, checking properties, handling error (allowing encryption if none is found), single and multi stage file uploading, versioning and lifecycle policies
 * service cleanup (except for VPC network)
 #                                                      
 
