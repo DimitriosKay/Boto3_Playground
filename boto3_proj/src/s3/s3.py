@@ -29,12 +29,19 @@ class S3_Res:
             Config=config,
             Callback=UploadProgress(file_path, file_name)
         )
+    
+    def fetch_buckets(self):
+        response = self._resource.meta.client.list_buckets()
+        up_buckets = [bucket['Name'] for bucket in response['Buckets']]
+        #print (up_buckets)
+        return up_buckets
 
-    def delete_files(self, bucket_name):
+
+    def delete_files(self, up_buckets):
         print ('Emptying bucket ...')
-        bucket = self._resource.Bucket(bucket_name)
+        bucket = self._resource.Bucket(up_buckets)
         bucket.object_versions.delete()
-        #bucket.objects.all().delete()
+
 
     def check_available(self, web_bucket_name):
         bucket = self._resource.Bucket(web_bucket_name)
@@ -224,6 +231,7 @@ class S3:
             Body=open(index_file).read(),
             ContentType='text/html'
         )
+
         put_error = self._client.put_object(
             Bucket=web_bucket_name,
             ACL='public-read',
