@@ -1,5 +1,5 @@
 # AWS infrastructure setup using Python and Boto3
-## *Basic implementation primarily a study for now*
+## *Basic implementation (primarily a study)*
 
 #                                                   
 #### Started off with few dabble scripts, bringing up and deleting an S3 bucket and an EC2 instance:
