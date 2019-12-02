@@ -10,6 +10,10 @@ class ResourceLocator:
     def get_resource(self):
         return self._resource
 
+class EC2Resource(ResourceLocator):
+    def __init__(self):
+        super().__init__('ec2')
+
 class S3Resource(ResourceLocator):
     def __init__(self):
         super().__init__('s3')

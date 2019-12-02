@@ -1,9 +1,10 @@
 from ec2.vpc import VPC
 from ec2.ec2 import EC2
 from client_locator import EC2Client
-
+from resource_locator import EC2Resource
 
 ec2_client = EC2Client().get_client()
+ec2_resource = EC2Resource().get_resource()
 
 def main():
 
@@ -90,7 +91,19 @@ def main():
 
     # creating Key Pair
     key_name = 'fresh_key_pair'
-    key_pair_response = ec2.create_key_pair(key_name)
+    
+    # get key pair name
+    key_pair = ec2_resource.KeyPair(key_name)
+   
+    # check if key pair is available and if it is create it, if not delete and create all over
+    if key_pair.name == key_name:
+        print (f'Key pair {key_pair.name} available!')
+        print ('Deleting Key Pair ...')
+        key_pair.delete()
+        key_pair_response = ec2.create_key_pair(key_name)
+    elif key_pair.name != key_name:
+        print ('Nah, no key pair ...' + key_pair.name)
+        key_pair_response = ec2.create_key_pair(key_name)
 
     print (f"Key pair {key_pair_response['KeyName']} has been created")
 
@@ -187,9 +200,9 @@ def terminate_instance():
 
 
 if __name__ == '__main__':
-    #main()
+    main()
     #describe_instance()
     #modify_instance()
     #stop_instance()
     #start_instance()
-    terminate_instance()
+    #terminate_instance()
