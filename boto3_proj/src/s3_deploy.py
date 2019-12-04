@@ -103,6 +103,7 @@ def deploy_webpage():
         s3.host_static_website(index_file, error_file, web_bucket_name)
     print (f'Go to "{web_bucket_name}.s3-website.eu-west-2.amazonaws.com" to check out your website')
 
+'''
 # fetch the list of buckets still up
 def fetch_buckets():
     return s3_res.fetch_buckets()
@@ -121,12 +122,12 @@ def empty_and_destroy_buckets():
     elif len(fetch_buckets()) == 0:
         print ("We are on the 'else' statement ... Probably there's nothing to clean up")
         print ("Yay!")
-
+'''
 
 
 if __name__ == "__main__":
     # Create S3 infrastructure
-    '''
+
     main()
     manage_buckets()
     update_bucket_policy()
@@ -134,7 +135,6 @@ if __name__ == "__main__":
     upload_big_file()
     enable_versioning()
     enable_lifecycle_policy()
-    '''
 
     # Deploy bucket hosted webpage
     
