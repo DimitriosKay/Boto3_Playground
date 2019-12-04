@@ -17,8 +17,14 @@
 #                                                   
 #### Developed the boto3_proj while learning from a Udemy AWS course:
 ##### __Here we run *python3 deploy.py* or to run a specific service (eg. *_instance()* classes or the *main()* vpc infrastructure) comment out  statements at the bottom of the file__
-##### vpc deployment #####
-##### ec2 deployment #####
+##### vpc and ec2 deployment #####
+  * Create VPC and infrastructure
+  * Adding two EC2 instances
+  * ...
+  ###### How to Run: ######
+  * To bring up the infrastructure run _deploy.py_
+  * If you wanna dabble with the setups of the infra, the file has method calls at the end which can be commented out
+  * To destroy the infrastructure, run _ec2_destroy.py_
 ##### s3 deployment: #####
   * Creating a bucket, with general setting for example purposes (allowing you to pick and choose what policies you want)
   * Assigning and updating stock policies
@@ -30,13 +36,10 @@
   * For base S3 bucket setup, at the bottom of the _s3_deploy.py_ file comment out everything under 'Create S3 infrastructure' and run _python3 s3_deploy.py_
   * For S3 hosted web page, comment out everything under 'Deploy bucket hosted webpage' and run _python3 s3_deploy.py_
 * Service cleanup (except for VPC network - _for now_):
-  * Go into the _s3_deploy.py_ file, at the bottom find 'Destroy S3 infrastructure', comment the line below and run again ... Voilah
+  * Destroy file created _s3_destroy.py_. If you wanna destroy the infrastructure, run the file.
+  * ... Voilah
 #                                                      
 
 
 
 ###### [] Was (*sort of still am*) trying to make sense of when to use client or resource in the __boto3.*client/resource*__ calls
-
-###### [] Would be great to set up a infrastructure tare-down script (like teraform destroy) for the whole VPC network
-
-###### [] Could also 'modularize' it a bit more
