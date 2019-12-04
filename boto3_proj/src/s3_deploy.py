@@ -33,7 +33,6 @@ def update_bucket_policy():
     print (f'Policies for {bucket_name} have been updated')
 
 def manage_buckets():
-
     # list buckets
     bucky_list = s3.list_buckets()
     for x in bucky_list['Buckets']:

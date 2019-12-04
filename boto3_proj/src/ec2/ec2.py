@@ -1,15 +1,23 @@
-
-
 class EC2:
     def __init__(self, client):
         self._client = client
+
+    def check_if_key_pair(self):
+        print ('Checking if key pair is available ...')
+        return self._client.describe_key_pairs()
 
     def create_key_pair(self, key_name):
         print ('Creating Key Pair...')
         return self._client.create_key_pair(
             KeyName=key_name
         )
-    
+
+    def delete_key_pair(self, key_name):
+        print ('Deleting Key Pair ...')
+        return self._client.delete_key_pair(
+            KeyName=key_name
+        )
+
     def create_security_group(self, group_name, description, vpc_id):
         print ('Creating Security Group...')
         return self._client.create_security_group(
@@ -92,19 +100,19 @@ class EC2:
         )
     
     def stop_ec2_instance(self, instance_id):
-        print (f'Stop EC2 instance {instance_id}')
+        print (f'Stoping EC2 instance {instance_id} ...')
         return self._client.stop_instances(
             InstanceIds=[instance_id]
         )
 
     def start_ec2_instance(self, instance_id):
-        print (f'Start EC2 instance {instance_id}')
+        print (f'Starting EC2 instance {instance_id} ...')
         return self._client.start_instances(
             InstanceIds=[instance_id]
         )
 
     def terminate_ec2_instance(self, instance_id):
-        print (f'Terminating EC2 instance {instance_id}')
+        print (f'Terminating EC2 instance {instance_id} ...')
         return self._client.terminate_instances(
             InstanceIds=[instance_id]
         )

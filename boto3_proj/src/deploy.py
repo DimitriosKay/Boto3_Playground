@@ -91,21 +91,28 @@ def main():
 
     # creating Key Pair
     key_name = 'fresh_key_pair'
-    
-    # get key pair name
-    key_pair = ec2_resource.KeyPair(key_name)
-   
-    # check if key pair is available and if it is create it, if not delete and create all over
-    if key_pair.name == key_name:
-        print (f'Key pair {key_pair.name} available!')
-        print ('Deleting Key Pair ...')
-        key_pair.delete()
-        key_pair_response = ec2.create_key_pair(key_name)
-    elif key_pair.name != key_name:
-        print ('Nah, no key pair ...' + key_pair.name)
-        key_pair_response = ec2.create_key_pair(key_name)
 
-    print (f"Key pair {key_pair_response['KeyName']} has been created")
+    key_check_response = ec2.check_if_key_pair()
+
+    # get key pair name
+    for k in key_check_response['KeyPairs']:
+        key_pair = k['KeyName']
+
+    #print (key_check_response['KeyPairs'])
+
+        # check if key pair is available and if it is create it, if not delete and create all over
+    if len(key_check_response['KeyPairs']) > 0: 
+        if key_pair == key_name:
+            print (f'Key pair {key_pair} available!')
+            ec2.delete_key_pair(key_name)
+            key_pair_response = ec2.create_key_pair(key_name)
+
+    elif len(key_check_response['KeyPairs']) == 0:
+        print (f'Nah, no key ({key_name}) pair ...')
+        key_pair_response = ec2.create_key_pair(key_name)
+    
+    print (f"Key pair has been created")
+
 
     # * Public EC2 instance setup block *
     # create Security Group
